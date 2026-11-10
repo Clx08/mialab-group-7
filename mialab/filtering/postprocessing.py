@@ -29,21 +29,6 @@ def simple_crf(probability, sigma=1.0, compat=2.0, iterations=5):
 
 from mialab.filtering.morphology import morphology_image
 
-def apply_morphology(
-        image: sitk.Image,
-        labels: list,
-        operation: str,
-        background_label: int = 0
-) -> sitk.Image:
-    """Applies morphology to selected anatomical labels of a segmentation image."""
-
-    processed_image = image
-
-    for label in labels:
-        processed_image = morphology_image(processed_image, label, background_label, operation)
-
-    return processed_image
-
 class ImagePostProcessing(pymia_fltr.Filter):
     """Represents a post-processing filter."""
 

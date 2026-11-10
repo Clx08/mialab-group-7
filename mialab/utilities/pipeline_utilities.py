@@ -294,8 +294,8 @@ def init_evaluator() -> eval_.Evaluator:
     warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
 
     # define the labels to evaluate
-    labels = {1: 'WhiteMatter',
-              2: 'GreyMatter',
+    labels = {1: 'GreyMatter',
+              2: 'WhiteMatter',
               3: 'Hippocampus',
               4: 'Amygdala',
               5: 'Thalamus'

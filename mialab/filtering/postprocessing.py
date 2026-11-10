@@ -27,6 +27,22 @@ def simple_crf(probability, sigma=1.0, compat=2.0, iterations=5):
         q /= q.sum(axis=0)
     return q
 
+from mialab.filtering.morphology import morphology_image
+
+def apply_morphology(
+        image: sitk.Image,
+        labels: list,
+        operation: str,
+        background_label: int = 0
+) -> sitk.Image:
+    """Applies morphology to selected anatomical labels of a segmentation image."""
+
+    processed_image = image
+
+    for label in labels:
+        processed_image = morphology_image(processed_image, label, background_label, operation)
+
+    return processed_image
 
 class ImagePostProcessing(pymia_fltr.Filter):
     """Represents a post-processing filter."""
@@ -46,10 +62,12 @@ class ImagePostProcessing(pymia_fltr.Filter):
             sitk.Image: The post-processed image.
         """
 
-        # todo: replace this filter by a post-processing - or do we need post-processing at all?
-        warnings.warn('No post-processing implemented. Can you think about something?')
+        processed_image = image
 
-        return image
+        for label in [1, 2, 3, 4, 5]: 
+            processed_image = morphology_image(processed_image, label=label, background_label=0, operation='opening')
+
+        return processed_image
 
     def __str__(self):
         """Gets a printable string representation.
